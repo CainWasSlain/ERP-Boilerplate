@@ -1,0 +1,22 @@
+{
+  "name": "erp-boilerplate",
+  "version": "1.0.0",
+  "description": "A modular, extensible scaffold for building ERP systems with prebuilt CRUD modules, authentication, role-based access, and API structure.",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev:api": "pnpm --filter api start:dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev": "concurrently \"pnpm dev:api\" \"pnpm dev:web\"",
+    "build:api": "pnpm --filter api build",
+    "build:web": "pnpm --filter web build",
+    "build": "pnpm build:api && pnpm build:web"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.1",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
