@@ -23,3 +23,34 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Employee {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  role      String
+  createdAt DateTime @default(now())
+}
+
+model Inventory {
+  id        Int      @id @default(autoincrement())
+  itemName  String   @unique
+  quantity  Int
+  price     Float
+  createdAt DateTime @default(now())
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  budget    Float
+  startDate DateTime
+  endDate   DateTime?
+}
+
+model Finance {
+  id        Int      @id @default(autoincrement())
+  type      String   // income / expense
+  amount    Float
+  date      DateTime @default(now())
+  notes     String?
+}
