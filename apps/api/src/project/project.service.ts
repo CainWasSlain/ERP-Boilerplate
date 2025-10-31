@@ -9,26 +9,27 @@ export class ProjectService {
   constructor(private prisma: PrismaService) {}
 
   async createProject(data: CreateProjectDto) {
-    const existing = await this.prisma.project.findUnique({ where: { name: data.name } });
-    if (existing) throw new Error('Project name already exists');
-
     return this.prisma.project.create({ data });
   }
 
-  findAll() {
-    return this.prisma.project.findMany();
+  async getProjects() {
+    return this.prisma.project.findMany({
+      where: { deletedAt: null },
+    });
   }
 
-  findOne(id: number) {
-    return this.prisma.project.findUnique({ where: { id } });
+  async getProjectById(id: number) {
+    return this.prisma.project.findUnique({
+      where: { id, deletedAt: null },
+    });
   }
 
-  update(id: number, data: UpdateProjectDto) {
+  async update(id: number, data: UpdateProjectDto) {
     return this.prisma.project.update({ where: { id }, data });
   }
 
-  remove(id: number) {
-    return this.prisma.project.delete({ where: { id } });
+  async softDeleteProject(id: number) {
+    return this.prisma.project.update({ where: { id }, data: { deletedAt: new Date() } } );
   }
 }
 

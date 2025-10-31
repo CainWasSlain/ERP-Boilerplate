@@ -33,24 +33,27 @@ model Employee {
 
 model Inventory {
   id        Int      @id @default(autoincrement())
-  itemName  String   @unique
+  itemName  String   
   quantity  Int
   price     Float
   createdAt DateTime @default(now())
+  deletedAt DateTime?
 }
 
 model Project {
   id        Int      @id @default(autoincrement())
-  name      String   @unique
+  name      String   
   budget    Float
   startDate DateTime
   endDate   DateTime?
+  deletedAt DateTime?
 }
 
 model Finance {
   id        Int      @id @default(autoincrement())
-  type      String   // income / expense
+  type      String   
   amount    Float
   date      DateTime @default(now())
   notes     String?
+  deletedAt DateTime?
 }

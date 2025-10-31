@@ -12,20 +12,24 @@ export class FinanceService {
     return this.prisma.finance.create({ data });
   }
 
-  findAll() {
-    return this.prisma.finance.findMany();
+  async getFinances() {
+    return this.prisma.finance.findMany({
+      where: { deletedAt: null },
+    });
   }
 
-  findOne(id: number) {
-    return this.prisma.finance.findUnique({ where: { id } });
+  async getFinanceById(id: number) {
+    return this.prisma.finance.findUnique({
+      where: { id, deletedAt: null },
+    });
   }
 
-  update(id: number, data: UpdateFinanceDto) {
+  async update(id: number, data: UpdateFinanceDto) {
     return this.prisma.finance.update({ where: { id }, data });
   }
 
-  remove(id: number) {
-    return this.prisma.finance.delete({ where: { id } });
+  async softDeleteFinance(id: number) {
+    return this.prisma.finance.update({ where: { id } , data: { deletedAt: new Date() } });
   }
 }
 

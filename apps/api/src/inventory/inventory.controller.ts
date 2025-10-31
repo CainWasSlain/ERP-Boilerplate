@@ -14,12 +14,12 @@ export class InventoryController {
      
     @Get()
     findAll() {
-        return this.inventoryService.findAll();
+        return this.inventoryService.getInventory();
     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.inventoryService.findOne(+id);
+        return this.inventoryService.getInventoryById(+id);
     }
 
     @Put(':id')
@@ -29,6 +29,6 @@ export class InventoryController {
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.inventoryService.remove(+id);
+        return this.inventoryService.softDeleteInventory(+id);
     }
 }

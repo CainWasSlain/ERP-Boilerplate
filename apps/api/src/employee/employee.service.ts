@@ -15,19 +15,19 @@ export class EmployeeService {
     return this.prisma.employee.create({ data });
   }
 
-  findAll() {
+  async getEmployees() {
     return this.prisma.employee.findMany();
   }
 
-  findOne(id: number) {
+  async getEmployeeById(id: number) {
     return this.prisma.employee.findUnique({ where: { id } });
   }
 
-  update(id: number, data: UpdateEmployeeDto) {
+  async update(id: number, data: UpdateEmployeeDto) {
     return this.prisma.employee.update({ where: { id }, data });
   }
 
-  remove(id: number) {
+  async DeleteEmployee(id: number) {
     return this.prisma.employee.delete({ where: { id } });
   }
 }

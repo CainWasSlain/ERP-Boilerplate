@@ -17,11 +17,11 @@ export class UserService {
         return this.prisma.user.create({ data :{name: data.name, email: data.email,password: hashedPassword} });
     }
     
-    async findAll() {
+    async getUsers() {
         return this.prisma.user.findMany();
     }
 
-    async findOne(id: number) {
+    async getUserById(id: number) {
         return this.prisma.user.findUnique({ where: { id } });
     }
 
@@ -38,7 +38,7 @@ export class UserService {
         return this.prisma.user.update({ where: { id }, data });
     }
 
-    async remove(id: number) {
+    async DeleteUser(id: number) {
         return this.prisma.user.delete({ where: { id } });
     }
 }

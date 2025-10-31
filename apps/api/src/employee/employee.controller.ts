@@ -14,12 +14,12 @@ export class EmployeeController {
      
     @Get()
     findAll() {
-        return this.employeeService.findAll();
+        return this.employeeService.getEmployees();
     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.employeeService.findOne(+id);
+        return this.employeeService.getEmployeeById(+id);
     }
 
     @Put(':id')
@@ -29,6 +29,6 @@ export class EmployeeController {
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.employeeService.remove(+id);
+        return this.employeeService.DeleteEmployee(+id);
     }
 }

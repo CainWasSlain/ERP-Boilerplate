@@ -14,12 +14,12 @@ export class ProjectController {
      
     @Get()
     findAll() {
-        return this.projectService.findAll();
+        return this.projectService.getProjects();
     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.projectService.findOne(+id);
+        return this.projectService.getProjectById(+id);
     }
 
     @Put(':id')
@@ -29,6 +29,6 @@ export class ProjectController {
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.projectService.remove(+id);
+        return this.projectService.softDeleteProject(+id);
     }
 }

@@ -9,26 +9,27 @@ export class InventoryService {
   constructor(private prisma: PrismaService) {}
 
   async createInventory(data: CreateInvDto) {
-    const existing = await this.prisma.inventory.findUnique({ where: { itemName: data.itemName } });
-    if (existing) throw new Error('Item already exists');
-
     return this.prisma.inventory.create({ data });
   }
 
-  findAll() {
-    return this.prisma.inventory.findMany();
+  async getInventory() {
+    return this.prisma.inventory.findMany({
+      where: { deletedAt: null },
+    });
   }
 
-  findOne(id: number) {
-    return this.prisma.inventory.findUnique({ where: { id } });
+  async getInventoryById(id: number) {
+    return this.prisma.inventory.findUnique({
+      where: { id, deletedAt: null },
+    });
   }
 
-  update(id: number, data: UpdateInvDto) {
+  async update(id: number, data: UpdateInvDto) {
     return this.prisma.inventory.update({ where: { id }, data });
   }
 
-  remove(id: number) {
-    return this.prisma.inventory.delete({ where: { id } });
+  async softDeleteInventory(id: number) {
+    return this.prisma.inventory.update({ where: { id } , data: { deletedAt: new Date() } });
   }
 }
 

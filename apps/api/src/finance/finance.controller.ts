@@ -14,12 +14,12 @@ export class FinanceController {
      
     @Get()
     findAll() {
-        return this.financeService.findAll();
+        return this.financeService.getFinances();
     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.financeService.findOne(+id);
+        return this.financeService.getFinanceById(+id);
     }
 
     @Put(':id')
@@ -29,6 +29,6 @@ export class FinanceController {
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.financeService.remove(+id);
+        return this.financeService.softDeleteFinance(+id);
     }
 }
