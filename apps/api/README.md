@@ -1,98 +1,175 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🧩 ERP Boilerplate – API (NestJS)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This folder contains the **backend server** for the ERP Boilerplate project, built with **NestJS**, a progressive Node.js framework for building scalable, maintainable, and modular server-side applications.  
+It provides authentication, CRUD modules, and role-based access control out of the box.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Overview of the Backend Structure
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Here’s how the key parts of this NestJS backend work together:
 
-## Project setup
+- **Modules**  
+  Group related functionality together (e.g., User, Auth, Employee, Finance). Each module contains its own controller, service, and data models, keeping the code modular and maintainable.
 
-```bash
-$ npm install
+- **Controllers**  
+  Handle incoming HTTP requests and return responses. They map routes to the appropriate service functions.
+
+- **Services**  
+  Contain the business logic and interact with the database through **Prisma ORM**. Controllers depend on services to perform database actions or computations.
+
+- **Guards & Strategies**  
+  Handle authentication and authorization. This project uses JWT tokens (access + refresh) with **Passport.js** and includes role-based route protection.
+
+- **Prisma**  
+  Acts as the data access layer, providing a strongly-typed API for the PostgreSQL database.
+
+- **main.ts**  
+  The entry point of the application. It bootstraps the NestJS server, loads environment variables, and initializes global middleware and configurations.
+
+Together, these components make the backend modular, secure, and easy to extend with additional features or modules.
+
+---
+
+## Environment Variables
+
+The backend uses a `.env` file for environment-specific settings such as:
+
+```
+PORT=4000
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/erp_db?schema=public
+JWT_ACCESS_SECRET=your_access_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+JWT_ACCESS_EXPIRY=15m
+JWT_REFRESH_EXPIRY=7d
 ```
 
-## Compile and run the project
+> You can create your `.env` file by copying `.env.example` and updating the values as needed.
 
+---
+
+## Running the Server
+
+The backend supports both development and production modes.
+
+### **Development Mode (with Hot Reload)**
+Automatically restarts on file changes:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+pnpm start:dev
 ```
 
-## Run tests
-
+### **Production Mode**
+Builds the project and starts the compiled server:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+pnpm build
+pnpm start:prod
 ```
 
-## Deployment
+By default, the server listens on port `4000` or the port defined in your `.env` file.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Database and Prisma
 
+This project uses **PostgreSQL** as the primary database, managed through **Prisma ORM**.
+
+### Run the Database via Docker
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker-compose up -d
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Run Migrations
+```bash
+pnpm prisma migrate dev
+```
 
-## Resources
+### Open Prisma Studio
+```bash
+pnpm prisma studio
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### Generate Prisma Client
+```bash
+pnpm prisma generate
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## Authentication and Authorization
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **Authentication** is implemented using JWT (access + refresh tokens).
+- **Authorization** is handled using role-based access control (RBAC).  
+  You can define roles such as `User` or `Admin` directly in the Prisma schema.
+- The system supports **token rotation** for refresh tokens and secure password hashing with **bcrypt**.
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## API Testing
 
-## License
+You can test the backend using tools such as:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- **[Postman](https://www.postman.com/downloads/)** – for sending API requests and checking responses.
+- **[Insomnia](https://insomnia.rest/download)** – for testing REST or GraphQL endpoints interactively.
+
+> Many routes are protected by JWT authentication.  
+> To test them, first register or log in to get a token, then include it in the `Authorization: Bearer <token>` header for subsequent requests.
+
+---
+
+## Swagger API Documentation
+
+Once the server is running, you can explore and test your endpoints interactively through Swagger:
+
+```
+http://localhost:4000/api/docs
+```
+
+This automatically documents all routes, DTOs, and schemas.
+
+---
+
+## Serving and Extending
+
+The backend is modular by design — you can easily add new modules (for example, `sales`, `attendance`, or `analytics`) using NestJS generators:
+
+```bash
+nest generate module sales
+nest generate service sales
+nest generate controller sales
+```
+
+Each module follows the same pattern of controller → service → Prisma interaction.
+
+---
+
+## Learn More
+
+- [NestJS Documentation](https://docs.nestjs.com)
+- [Prisma ORM](https://www.prisma.io/docs)
+- [PostgreSQL Docs](https://www.postgresql.org/docs/)
+- [Passport.js](http://www.passportjs.org/)
+- [Docker](https://docs.docker.com/)
+
+---
+
+## Common Commands
+
+| Task | Command |
+|------|----------|
+| Start dev server | `pnpm start:dev` |
+| Build project | `pnpm build` |
+| Run production server | `pnpm start:prod` |
+| Run migrations | `pnpm prisma migrate dev` |
+| Open Prisma Studio | `pnpm prisma studio` |
+| Lint code | `pnpm lint` |
+| Format code | `pnpm format` |
+
+---
+
+## Contributing & Troubleshooting
+
+If you encounter any issues:
+1. Check your `.env` values (especially database and JWT secrets).
+2. Ensure Docker containers are running (`docker ps`).
+3. Re-generate Prisma client if models change (`pnpm prisma generate`).
+4. Review the root README for global setup instructions.
