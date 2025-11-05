@@ -14,7 +14,7 @@ export class UserService {
         if (existing) {
             throw new Error("Email already exists");
         }
-        return this.prisma.user.create({ data :{name: data.name, email: data.email,password: hashedPassword} });
+        return this.prisma.user.create({ data :{name: data.name, email: data.email, password: hashedPassword, role:data.role ?? "USER" , refresh:null} });
     }
     
     async getUsers() {
@@ -23,6 +23,9 @@ export class UserService {
 
     async getUserById(id: number) {
         return this.prisma.user.findUnique({ where: { id } });
+    }
+    async findByEmail(email: string) {
+        return this.prisma.user.findUnique({ where: { email } });
     }
 
     async update(id: number, data: UpdateUserDto) {

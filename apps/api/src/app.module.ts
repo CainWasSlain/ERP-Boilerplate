@@ -8,13 +8,14 @@ import { EmployeeModule } from './employee/employee.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { ProjectModule } from './project/project.module';
 import { FinanceModule } from './finance/finance.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,      
       envFilePath: '.env',  
-    }), PrismaModule, UserModule,EmployeeModule,InventoryModule,ProjectModule,FinanceModule],
+    }), PrismaModule, UserModule,EmployeeModule,InventoryModule,ProjectModule,FinanceModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

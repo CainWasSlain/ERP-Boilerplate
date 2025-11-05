@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, MinLength, Matches } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength, Matches, IsOptional, IsEnum } from 'class-validator';
+import { Role } from '../../generated/prisma/client';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -14,4 +15,8 @@ export class CreateUserDto {
   @Matches(/(?=.*\d)/, { message: 'Password must contain a number' })
   @Matches(/(?=.*[!@#$%^&*])/, { message: 'Password must contain a special character' })
   password!: string;
+
+  @IsOptional()
+  @IsEnum(Role)
+  role?: Role;
 }
