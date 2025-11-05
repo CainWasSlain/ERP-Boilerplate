@@ -3,6 +3,7 @@ import { PrismaService } from '../common/prisma.service';
 import { CreateUserDto } from './DTO/createUser.dto';
 import { UpdateUserDto } from './DTO/updateUser.dto';
 import * as bcrypt from 'bcrypt';
+import { Role } from '../generated/prisma/client';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
         if (existing) {
             throw new Error("Email already exists");
         }
-        return this.prisma.user.create({ data :{name: data.name, email: data.email, password: hashedPassword, role:data.role ?? "USER" , refresh:null} });
+        return this.prisma.user.create({ data :{name: data.name, email: data.email, password: hashedPassword, role:data.role ?? Role.USER , refresh:null} });
     }
     
     async getUsers() {

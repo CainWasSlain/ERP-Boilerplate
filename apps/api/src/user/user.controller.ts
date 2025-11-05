@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common'
 import { UserService } from './user.service';
 import { CreateUserDto } from './DTO/createUser.dto';
 import { UpdateUserDto } from './DTO/updateUser.dto';
+import { Roles } from '../auth/decorators/role.decorator';
+import { Role } from '../generated/prisma/client';
 
 @Controller('user')
 export class UserController {
@@ -12,6 +14,7 @@ export class UserController {
         return this.userService.createUser(data);
     }
      
+    @Roles(Role.ADMIN)
     @Get()
     findAll() {
         return this.userService.getUsers();

@@ -9,6 +9,9 @@ import { InventoryModule } from './inventory/inventory.module';
 import { ProjectModule } from './project/project.module';
 import { FinanceModule } from './finance/finance.module';
 import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt.guard';
+import { RolesGuard } from './auth/guards/role.guard';
 
 @Module({
   imports: [
@@ -17,6 +20,15 @@ import { AuthModule } from './auth/auth.module';
       envFilePath: '.env',  
     }), PrismaModule, UserModule,EmployeeModule,InventoryModule,ProjectModule,FinanceModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard, 
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard, 
+    },
+  ],
 })
 export class AppModule {}
